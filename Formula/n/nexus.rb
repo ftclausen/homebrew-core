@@ -2,8 +2,8 @@ class Nexus < Formula
   desc "Repository manager for binary software components"
   homepage "https://www.sonatype.com/"
   url "https://github.com/sonatype/nexus-public.git",
-      tag:      "release-3.80.0-06",
-      revision: "74aa87dcd43439ef2b69d0a5e49d5522b7944261"
+      tag:      "release-3.81.0-08",
+      revision: "c8ccb46ff257048524efef50b9abcc077e98096f"
   license "EPL-1.0"
 
   # As of writing, upstream is publishing both v2 and v3 releases. The "latest"
@@ -33,14 +33,15 @@ class Nexus < Formula
 
   uses_from_macos "unzip" => :build
 
-  # Avoid downloading copies of node and yarn
+  # Use corepack to install yarn
+  # Fix repo creation UI errors so repos can actually be managed
   patch :DATA
 
   def install
     # Workaround build error: Couldn't find package "@sonatype/nexus-ui-plugin@workspace:*"
     # Ref: https://github.com/sonatype/nexus-public/issues/417
     # Ref: https://github.com/sonatype/nexus-public/issues/432#issuecomment-2663250153
-    inreplace ["components/nexus-rapture/package.json", "plugins/nexus-coreui-plugin/package.json"],
+    inreplace ["plugins/nexus-coreui-plugin/package.json"],
               '"@sonatype/nexus-ui-plugin": "workspace:*"',
               '"@sonatype/nexus-ui-plugin": "*"'
 
@@ -51,12 +52,7 @@ class Nexus < Formula
                     KARAF_LOG:  var/"log/nexus",
                     KARAF_ETC:  pkgetc)
 
-    with_env(SKIP_YARN_COREPACK_CHECK: "1") do
-      system "yarn", "install", "--immutable"
-      system "yarn", "workspaces", "run", "build-all"
-    end
-
-    system "mvn", "install", "-DskipTests", "-Dpublic"
+    system "./mvnw", "install", "-DskipTests", "-Dpublic"
 
     assembly = "assemblies/nexus-repository-core/target/assembly"
     rm(Dir["#{assembly}/bin/*.bat"])
@@ -89,53 +85,98 @@ class Nexus < Formula
 end
 
 __END__
-diff --git a/plugins/nexus-coreui-plugin/pom.xml b/plugins/nexus-coreui-plugin/pom.xml
-index 9b8325fd98..2a58a07afe 100644
---- a/plugins/nexus-coreui-plugin/pom.xml
-+++ b/plugins/nexus-coreui-plugin/pom.xml
-@@ -172,7 +172,7 @@
-         <artifactId>karaf-maven-plugin</artifactId>
-       </plugin>
- 
--      <plugin>
-+      <!--plugin>
-         <groupId>com.github.eirslett</groupId>
-         <artifactId>frontend-maven-plugin</artifactId>
- 
-@@ -212,12 +212,12 @@
-             </goals>
-             <phase>test</phase>
-             <configuration>
--              <arguments>test --reporters=jest-junit --reporters=default</arguments>
-+              <arguments>test -reporters=jest-junit -reporters=default</arguments>
-               <skip>${npm.skipTests}</skip>
-             </configuration>
-           </execution>
-         </executions>
--      </plugin>
-+      </plugin-->
-     </plugins>
-   </build>
- 
 diff --git a/pom.xml b/pom.xml
-index 6647497628..d99148b421 100644
+index aaa8182482b..bacc2277195 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -877,7 +877,7 @@
-           </executions>
-         </plugin>
+@@ -69,9 +69,9 @@
  
--        <plugin>
-+        <!--plugin>
+     <!-- Define the node and yarn versions used by the frontend-maven-plugin -->
+     <node.version>v18.17.1</node.version>
+-    <yarn.version>v1.22.19</yarn.version>
++    <yarn.version>v3.2.3</yarn.version>
+     <npm.install>install --immutable</npm.install>
+-    <npm.skipTests>false</npm.skipTests>
++    <npm.skipTests>true</npm.skipTests>
+     <npm.build>build-all</npm.build>
+ 
+     <!-- logging configuration used in logback config files to control test logging -->
+@@ -702,7 +702,7 @@
+         <plugin>
            <groupId>com.github.eirslett</groupId>
            <artifactId>frontend-maven-plugin</artifactId>
-           <version>1.11.3</version>
-@@ -932,7 +932,7 @@
+-          <version>1.11.3</version>
++          <version>1.15.1</version>
+ 
+           <configuration>
+             <nodeVersion>${node.version}</nodeVersion>
+@@ -717,30 +717,31 @@
+ 
+           <executions>
+             <execution>
+-              <id>install node and yarn</id>
++              <id>install node and corepack</id>
+               <goals>
+-                <goal>install-node-and-yarn</goal>
++                <goal>install-node-and-corepack</goal>
+               </goals>
+               <phase>generate-resources</phase>
+             </execution>
++
+             <execution>
+               <id>yarn install</id>
+               <goals>
+-                <goal>yarn</goal>
++                <goal>corepack</goal>
+               </goals>
+               <phase>generate-resources</phase>
+               <configuration>
+-                <arguments>${npm.install}</arguments>
++                <arguments>yarn install --no-immutable</arguments>
+               </configuration>
+             </execution>
+             <execution>
+               <id>yarn run build</id>
+               <goals>
+-                <goal>yarn</goal>
++                <goal>corepack</goal>
+               </goals>
+               <phase>compile</phase>
+               <configuration>
+-                <arguments>${npm.build}</arguments>
++                <arguments>yarn run build</arguments>
                </configuration>
              </execution>
            </executions>
--        </plugin>
-+        </plugin-->
+diff --git a/plugins/nexus-coreui-plugin/src/main/resources/static/rapture/NX/coreui/controller/Repositories.js b/plugins/nexus-coreui-plugin/src/main/resources/static/rapture/NX/coreui/controller/Repositories.js
+index d570932ebb5..fedbbb6015d 100644
+--- a/plugins/nexus-coreui-plugin/src/main/resources/static/rapture/NX/coreui/controller/Repositories.js
++++ b/plugins/nexus-coreui-plugin/src/main/resources/static/rapture/NX/coreui/controller/Repositories.js
+@@ -723,7 +723,15 @@ Ext.define('NX.coreui.controller.Repositories', {
+     });
+   },
  
-         <plugin>
-           <groupId>com.mycila</groupId>
++  isCoreEdition: function() {
++    return NX.State.getEdition() === 'CORE';
++  },
++
+   checkFirewallCapabilitiesStatus: function(repositoryName, callback) {
++    if (this.isCoreEdition()) {
++      return;
++    }
++
+     NX.direct.firewall_RepositoryStatus.readCapabilitiesStatus(repositoryName, function (response) {
+       if (Ext.isObject(response) && response.success && response.data != null) {
+         callback(response.data === true);
+@@ -734,6 +742,10 @@ Ext.define('NX.coreui.controller.Repositories', {
+   },
+ 
+   checkFirewallCapabilitiesStatusForPypi: function(repositoryName, callback) {
++    if (this.isCoreEdition()) {
++      return;
++    }
++
+     NX.direct.firewall_RepositoryStatus.readCapabilitiesStatus(repositoryName, function (response) {
+       if (Ext.isObject(response) && response.success && response.data != null) {
+         callback(response.data === true);
+
