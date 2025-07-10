@@ -3,20 +3,19 @@ class Btcli < Formula
 
   desc "Bittensor command-line tool"
   homepage "https://docs.bittensor.com/btcli"
-  url "https://files.pythonhosted.org/packages/3a/7a/f8d889187a4883f2fc01a2df512697d488f01576bc74a3aa93c9263d3fa6/bittensor_cli-9.7.1.tar.gz"
-  sha256 "ccc46ce40ad1cd4766e6287cd3fd407a577be229e87f637b1f0def1c91834c3a"
+  url "https://files.pythonhosted.org/packages/b5/07/a955223b90ca5286ba35da7cfb813397da8cf722ff41d5dab7a905a1243b/bittensor_cli-9.8.2.tar.gz"
+  sha256 "480eda391c458b6343aa124dbba3511df53fef766d3bbfe5615b0ef705d5cb52"
   license "MIT"
   head "https://github.com/opentensor/btcli.git", branch: "main"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_sequoia: "422859540aaa8bba5d2df99b9386df6b746ad8d00eecdf97a7f32186147a3e89"
-    sha256 cellar: :any,                 arm64_sonoma:  "0a922e1847a71626fae2d23c3f7b0b245bf3eeb0d32df6cd130c28d75ec8847b"
-    sha256 cellar: :any,                 arm64_ventura: "813f54b20b49503f2a2ad3aec600aed59b7df0017ed7376cf4db9ff627809e38"
-    sha256 cellar: :any,                 sonoma:        "1a71d1ffe8d95d5018a4d74d71d2244a9d1fe4dc910ef7c7901727c0a56eb025"
-    sha256 cellar: :any,                 ventura:       "b9ab2384a099691a78d20ebedda4151166b54bbb7c2fba78e393005320db8d53"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "e437e00ca1aef726f9a03abff6c78ffe7329b90f0253bc288aa65c03cd708b07"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8dbbd2b58835d173f7a058572f50720b0f1371384afb38f4d06ef0097f4a8ff1"
+    sha256 cellar: :any,                 arm64_sequoia: "ef26181c73e57e9115939106c5ef23780e3bde61ab3070ced61578d3ef34bff7"
+    sha256 cellar: :any,                 arm64_sonoma:  "8d7852f3d3ead24335898e02ad2a29b994e6132bde586b136acfe24db389777a"
+    sha256 cellar: :any,                 arm64_ventura: "338723df465aef8d95ad91c26509014ce2383a2e6806c43e59af2a96d38e3016"
+    sha256 cellar: :any,                 sonoma:        "3cbe92474c53fed4fb93dc2d569cf05308c2888eef74292da732759f33329960"
+    sha256 cellar: :any,                 ventura:       "d6a0d4be4996bc0d9b9e1be6a2d9d1a2478d2b288d011babd3b31151bf8fa118"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "ce0e89eef8f88035a850c9efc120de6ad88b9340ff8cc7c72bf54e7fa4686fbc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5e0756af46723b9089b5451ceba593c4dc1e3e0bc1dc3ea39df8541a66d010a4"
   end
 
   depends_on "rust" => :build # for bittensor-wallet
@@ -38,18 +37,13 @@ class Btcli < Formula
   end
 
   resource "aiosignal" do
-    url "https://files.pythonhosted.org/packages/ba/b5/6d55e80f6d8a08ce22b982eafa278d823b541c925f11ee774b0b9c43473d/aiosignal-1.3.2.tar.gz"
-    sha256 "a8c255c66fafb1e499c9351d0bf32ff2d8a0321595ebac3b93713656d2436f54"
+    url "https://files.pythonhosted.org/packages/61/62/06741b579156360248d1ec624842ad0edf697050bbaf7c3e46394e106ad1/aiosignal-1.4.0.tar.gz"
+    sha256 "f47eecd9468083c2029cc99945502cb7708b082c232f9aca65da147157b251c7"
   end
 
   resource "async-substrate-interface" do
-    url "https://files.pythonhosted.org/packages/0e/22/1754349acf82b9f65154d774bc32ac4c87f7da730a38be534a5d54c5ca70/async_substrate_interface-1.3.1.tar.gz"
-    sha256 "86dcfdeb94c7b8aab8ef3f870c23d6349c107ab853acc88c44fa1635a6792ef5"
-  end
-
-  resource "asyncstdlib" do
-    url "https://files.pythonhosted.org/packages/50/e1/72e388631c85233a2fd890d024fc20a8a9961dbba8614d78266636218f1f/asyncstdlib-3.13.1.tar.gz"
-    sha256 "f47564b9a3566f8f9172631d88c75fe074b0ce2127963b7265d310df9aeed03a"
+    url "https://files.pythonhosted.org/packages/cc/1b/8040726353654721996c2ef8414018aefa6a476bc376e7376425f78e1871/async_substrate_interface-1.4.0.tar.gz"
+    sha256 "105bd09fa23a17ce0210e62e15a961564e98312e9775f2709801d8440177be16"
   end
 
   resource "attrs" do
@@ -68,8 +62,8 @@ class Btcli < Formula
   end
 
   resource "bittensor-wallet" do
-    url "https://files.pythonhosted.org/packages/f1/b3/cdc806f6fbe65f7323af51b4d1f2aaab119f13b0e069e29327a51fd7235e/bittensor_wallet-3.0.11.tar.gz"
-    sha256 "7c371cc35b53fd5a73add56a1d0fa2f9e2d3203d0936b1f8171cc7907556113a"
+    url "https://files.pythonhosted.org/packages/70/b2/d120b53ff896f1b19d4275a647249c6f0d400bb92636cd6c77738765fb08/bittensor_wallet-3.1.0.tar.gz"
+    sha256 "d18eff3ab8ae64aa8c5641466026f0dc839cc690b55c9de36a9aa3dabf4c86f1"
   end
 
   resource "bt-decode" do
@@ -133,13 +127,13 @@ class Btcli < Formula
   end
 
   resource "multidict" do
-    url "https://files.pythonhosted.org/packages/aa/6d/84d6dbf9a855c09504bdffd4a2c82c6b82cc7b4d69101b64491873967d88/multidict-6.6.0.tar.gz"
-    sha256 "460b213769cb8691b5ba2f12e53522acd95eb5b2602497d4d7e64069a61e5941"
+    url "https://files.pythonhosted.org/packages/3d/2c/5dad12e82fbdf7470f29bff2171484bf07cb3b16ada60a6589af8f376440/multidict-6.6.3.tar.gz"
+    sha256 "798a9eb12dab0a6c2e29c1de6f3468af5cb2da6053a20dfa3344907eed0937cc"
   end
 
   resource "narwhals" do
-    url "https://files.pythonhosted.org/packages/56/e5/0b875d29e2a4d112c58fef6aac2ed3a73bbdd4d8d0dce722fd154357248a/narwhals-1.44.0.tar.gz"
-    sha256 "8cf0616d4f6f21225b3b56fcde96ccab6d05023561a0f162402aa9b8c33ad31d"
+    url "https://files.pythonhosted.org/packages/06/7f/dd8c5f7978c3136de4d660877a5279e4688ad0c56dbc15ee003c2fe981cd/narwhals-1.46.0.tar.gz"
+    sha256 "fd7e53860b233c2b5566d8b4e1b3e8e9c01b5a87649a9f9a322742000f207a60"
   end
 
   resource "netaddr" do
@@ -218,8 +212,8 @@ class Btcli < Formula
   end
 
   resource "typing-extensions" do
-    url "https://files.pythonhosted.org/packages/d1/bc/51647cd02527e87d05cb083ccc402f93e441606ff1f01739a62c8ad09ba5/typing_extensions-4.14.0.tar.gz"
-    sha256 "8676b788e32f02ab42d9e7c61324048ae4c6d844a399eebace3d4979d75ceef4"
+    url "https://files.pythonhosted.org/packages/98/5a/da40306b885cc8c09109dc2e1abd358d5684b1425678151cdaed4731c822/typing_extensions-4.14.1.tar.gz"
+    sha256 "38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36"
   end
 
   resource "urllib3" do
@@ -307,20 +301,16 @@ class Btcli < Formula
     expected_balance = {
       "balances" => {
         "brew-test" => {
-          "coldkey"              => ss58_address,
-          "free"                 => 0.0,
-          "staked"               => 0.0,
-          "staked_with_slippage" => 0.0,
-          "total"                => 0.0,
-          "total_with_slippage"  => 0.0,
+          "coldkey" => ss58_address,
+          "free"    => 0.0,
+          "staked"  => 0.0,
+          "total"   => 0.0,
         },
       },
       "totals"   => {
-        "free"                 => 0.0,
-        "staked"               => 0.0,
-        "staked_with_slippage" => 0.0,
-        "total"                => 0.0,
-        "total_with_slippage"  => 0.0,
+        "free"   => 0.0,
+        "staked" => 0.0,
+        "total"  => 0.0,
       },
     }
 

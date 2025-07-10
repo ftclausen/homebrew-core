@@ -86,7 +86,6 @@
     "exclude_packages": ["certifi"]
   },
   "awscli": {
-    "exclude_packages": ["cryptography"],
     "extra_packages": ["flit-core"]
   },
   "awscurl": {
@@ -348,7 +347,7 @@
   "flit": {
     "exclude_packages": ["certifi"]
   },
-  "fonttools": "fonttools[woff]",
+  "fonttools": "fonttools[lxml,woff]",
   "forbidden": {
     "exclude_packages": ["certifi", "cffi", "cryptography", "pycparser"]
   },
@@ -383,7 +382,7 @@
   },
   "glances": {
     "package_name": "glances[all]",
-    "exclude_packages": ["certifi", "cffi", "cryptography", "pycparser", "six"]
+    "exclude_packages": ["certifi", "cryptography", "psycopg-binary"]
   },
   "gnuradio": {
     "package_name": "",
@@ -554,6 +553,9 @@
     "exclude_packages": ["pygobject"]
   },
   "mathlibtools": {
+    "exclude_packages": ["certifi", "cryptography"]
+  },
+  "mcpm": {
     "exclude_packages": ["certifi", "cryptography"]
   },
   "mdv": "mdv[yaml]",
@@ -772,6 +774,9 @@
     "package_name": "torch[opt-einsum]",
     "extra_packages": ["pyyaml"],
     "exclude_packages": ["numpy"]
+  },
+  "pytr": {
+    "exclude_packages": ["certifi"]
   },
   "rasterio": {
     "exclude_packages": ["certifi", "numpy"]

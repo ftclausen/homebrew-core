@@ -1,8 +1,8 @@
 class Codex < Formula
   desc "OpenAI's coding agent that runs in your terminal"
   homepage "https://github.com/openai/codex"
-  url "https://github.com/openai/codex/archive/refs/tags/rust-v0.2.0.tar.gz"
-  sha256 "aa59d6af465d1fe89a82ae684ae3d8d5e6c1f6fbc270cc389c5966c6e969d867"
+  url "https://github.com/openai/codex/archive/refs/tags/rust-v0.4.0.tar.gz"
+  sha256 "e30f904e3a3e9edac865463b4dd7485ee693afb976bf09bc10806bdb132b1d48"
   license "Apache-2.0"
   head "https://github.com/openai/codex.git", branch: "main"
 
@@ -12,13 +12,13 @@ class Codex < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "de52c42521b1eb60600fbdf03acc0ad0d26fd1be3eefbc52025ea480499ce75f"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "6f1148326eb88cd542defb40f3a67e516f68b43ba5c125e0051b8b2001286b71"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "cf952e4aaa33a0e7a466f88142b2308b666183356817078009fa509287a1bfd0"
-    sha256 cellar: :any_skip_relocation, sonoma:        "900f5c341f0d92d0ab57f154feb36e9e74c194adbf7b8780fcc0ed5d185bcfbe"
-    sha256 cellar: :any_skip_relocation, ventura:       "4294b7944faf2913410c33215d751f507ccd1f845ed2be06acaf6bb72915df1a"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "5ca98099f91a0c67dfc91b7d598078ca8daa926de395259f25dffb26e38a8b38"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cd89a26bfadf9c88d5f7aac77ab4832cf0c2f78eb4bfed8990b509589fa1a2c2"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "1dabd214541266dd97a57bef7cb084fbd36903ddb2713ecbe203331b86984ac4"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "6da9bf13e8e2129e5beffd69624cfa2a3ee22708873d3cebb77bd20102d02cb9"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "bbfef39f00ba549efca7d652d871ddca50bd95e74d83b8f81060663618b5efeb"
+    sha256 cellar: :any_skip_relocation, sonoma:        "6a117912cf6ecb95cd4724bbd55b45644533862028969905484677a2476cf42c"
+    sha256 cellar: :any_skip_relocation, ventura:       "ffaffd5ac0c8c852c43fbf73e8350b62cd9898a7f5bffbc4adb9bad43d9deebe"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "bfaeaa71f178fac08036ac02bfe2ffe9c6d66a78a859400817dad5155492f703"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1e091e97d43e08619d18a505e50fe491340f3dc7479d4a01f52f72e548baf7ee"
   end
 
   depends_on "rust" => :build
@@ -34,6 +34,7 @@ class Codex < Formula
     end
 
     system "cargo", "install", "--bin", "codex", *std_cargo_args(path: "codex-rs/cli")
+    generate_completions_from_executable(bin/"codex", "completion")
   end
 
   test do

@@ -1,18 +1,18 @@
 class GatewayGo < Formula
   desc "GateWay Client for OpenIoTHub"
   homepage "https://github.com/OpenIoTHub"
-  url "https://github.com/OpenIoTHub/gateway-go/archive/refs/tags/v0.3.23.tar.gz"
-  sha256 "51e494a8c9ddcb617739815c116aee173fadc6dc1da3f21656242dce8f86a587"
+  url "https://github.com/OpenIoTHub/gateway-go/archive/refs/tags/v2.0.6.tar.gz"
+  sha256 "5619f99a5dd5dfd3c19fc1682406a924e9bcaffb84fb86bb528f7799e1830f98"
   license "MIT"
   head "https://github.com/OpenIoTHub/gateway-go.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "456506ee402e9bd6c8a82167f87e3c0a179fb8e671442fe06493d6fdebe6eaef"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "ceeae44cb937e828dbb5d92c613d970732dcdc2611f98d83677ce53e75c7a7eb"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "f2f3cf18295b10ae0ddebbebc6c6d10d8253b7b62cc4b4a673a0267c30fb94e9"
-    sha256 cellar: :any_skip_relocation, sonoma:        "d31fcb30c4b779cbf4eed8c7dc02eb08aa262659b083d7a74245e3f3cbbfd71e"
-    sha256 cellar: :any_skip_relocation, ventura:       "e49e2aad60be562014e7e5ac42d313be9cdd153b862834d322318dceb4070c67"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ec7dfa998cccc84610d3b74bf5d823495642560f230dea3222027b8d8ce75ea5"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "1d14aeb9261a46c16127eff8433541939df9107945a6f41a920c4aff21e8dd9a"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "46f4cd7f61a8499ac83c26507c42370574dea943ae6a7fef273601b8be037cd9"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "0db0aed8de139984c8e683763d32d85e2a75acf5e6a4b642925f5ef452d5d14a"
+    sha256 cellar: :any_skip_relocation, sonoma:        "344f5d7cf60299283f412956beb5f0f9acf8651f86c991f35f6e92ae86aab48c"
+    sha256 cellar: :any_skip_relocation, ventura:       "4fec5784dc13d968c20ebad6c0c2c28623e377bb0fd342fdea33b69adfa3626c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b2dceb5eb02ffcc64f13ceb16c7a2199a83a8d49347bdede3e3cc6ac8a0fe019"
   end
 
   depends_on "go" => :build
@@ -20,10 +20,10 @@ class GatewayGo < Formula
   def install
     ldflags = %W[
       -s -w
-      -X github.com/OpenIoTHub/gateway-go/info.Version=#{version}
-      -X github.com/OpenIoTHub/gateway-go/info.Commit=
-      -X github.com/OpenIoTHub/gateway-go/info.Date=#{Time.now.iso8601}
-      -X github.com/OpenIoTHub/gateway-go/info.BuiltBy=#{tap.user}
+      -X github.com/OpenIoTHub/gateway-go/v2/info.Version=#{version}
+      -X github.com/OpenIoTHub/gateway-go/v2/info.Commit=
+      -X github.com/OpenIoTHub/gateway-go/v2/info.Date=#{Time.now.iso8601}
+      -X github.com/OpenIoTHub/gateway-go/v2/info.BuiltBy=#{tap.user}
     ]
     system "go", "build", *std_go_args(ldflags:)
     (etc/"gateway-go").install "gateway-go.yaml"

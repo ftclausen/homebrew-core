@@ -3095,6 +3095,7 @@ python-packaging
 python-setuptools
 python-yq
 pythran
+pytr
 pyupgrade
 qbe
 qbec
